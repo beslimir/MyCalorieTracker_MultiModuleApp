@@ -15,6 +15,8 @@ import com.example.mycalorietracker.navigation.navigate
 import com.example.mycalorietracker.ui.theme.MyCalorieTrackerTheme
 import com.example.onboarding_presentation.age.AgeScreen
 import com.example.onboarding_presentation.gender.GenderScreen
+import com.example.onboarding_presentation.height.HeightScreen
+import com.example.onboarding_presentation.weight.WeightScreen
 import com.example.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,18 +49,24 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.HEIGHT) {
-
+                            HeightScreen(
+                                scaffoldState = scaffoldState,
+                                onNavigate = navController::navigate
+                            )
                         }
                         composable(Route.WEIGHT) {
-
-                        }
-                        composable(Route.NUTRIENT_GOAL) {
-
+                            WeightScreen(
+                                scaffoldState = scaffoldState,
+                                onNavigate = navController::navigate
+                            )
                         }
                         composable(Route.ACTIVITY) {
 
                         }
                         composable(Route.GOAL) {
+
+                        }
+                        composable(Route.NUTRIENT_GOAL) {
 
                         }
                         composable(Route.TRACKER_OVERVIEW) {
