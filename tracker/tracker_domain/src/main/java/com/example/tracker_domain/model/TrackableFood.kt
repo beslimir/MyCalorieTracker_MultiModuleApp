@@ -5,6 +5,6 @@ data class TrackableFood(
     val imageUrl: String?,
     val caloriesPer100g: Int,
     val carbsPer100g: Int,
-    val proteinPet100g: Int,
+    val proteinPer100g: Int,
     val fatPer100g: Int
 )
