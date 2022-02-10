@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -23,6 +24,15 @@ fun TrackerOverviewScreen(
     val spacing = LocalSpacing.current
     val state = viewModel.state
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = context) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> onNavigate(event)
+                else -> Unit
+            }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -68,7 +78,7 @@ fun TrackerOverviewScreen(
                             Spacer(modifier = Modifier.height(spacing.spaceMedium))
                         }
                         AddButton(
-                            text = stringResource(id = R.string.add_meal),
+                            text = stringResource(id = R.string.add_meal, meal.name.asString(context)),
                             onClick = {
                                 viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal))
                             },
