@@ -50,8 +50,8 @@ class NutrientGoalViewModel @Inject constructor(
                 when(result) {
                     is ValidateNutrients.Result.Success -> {
                         preferences.saveCarbRatio(result.carbsRatio)
-                        preferences.saveCarbRatio(result.proteinRatio)
-                        preferences.saveCarbRatio(result.fatRatio)
+                        preferences.saveProteinRatio(result.proteinRatio)
+                        preferences.saveFatRatio(result.fatRatio)
 
                         viewModelScope.launch {
                             _uiEvent.send(UiEvent.Navigate(Route.TRACKER_OVERVIEW))

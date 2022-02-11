@@ -94,7 +94,7 @@ fun TrackableFoodItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Spacer(modifier = Modifier.width(spacing.spaceSmall))
+                    Spacer(modifier = Modifier.height(spacing.spaceSmall))
                     Text(
                         text = stringResource(id = R.string.kcal_per_100g, food.caloriesPer100g),
                         style = MaterialTheme.typography.body2
@@ -104,7 +104,7 @@ fun TrackableFoodItem(
             Row {
                 NutrientInfo(
                     name = stringResource(id = R.string.carbs), 
-                    amount = food.caloriesPer100g, 
+                    amount = food.carbsPer100g,
                     unit = stringResource(id = R.string.grams),
                     amountTextSize = 16.sp,
                     unitTextSize = 12.sp,
@@ -129,62 +129,60 @@ fun TrackableFoodItem(
                     nameTextStyle = MaterialTheme.typography.body2
                 )
             }
-
-            AnimatedVisibility(
-                visible = trackableFoodUiState.isExpanded
+        }
+        AnimatedVisibility(
+            visible = trackableFoodUiState.isExpanded
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(spacing.spaceMedium),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(spacing.spaceMedium),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Row {
+                    BasicTextField(
+                        value = trackableFoodUiState.amount,
+                        onValueChange = onAmountChange,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = if (trackableFoodUiState.amount.isNotBlank()) {
+                                ImeAction.Done
+                            } else ImeAction.Default
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                onTrack()
+                                defaultKeyboardAction(ImeAction.Done)
+                            }
+                        ),
+                        singleLine = true,
+                        modifier = Modifier
+                            .border(
+                                shape = RoundedCornerShape(5.dp),
+                                width = 0.5.dp,
+                                color = MaterialTheme.colors.onSurface
+                            )
+                            .alignBy(LastBaseline)
+                            .padding(spacing.spaceMedium)
+                    )
+                    Spacer(modifier = Modifier.width(spacing.spaceExtraSmall))
+                    Text(
+                        text = stringResource(id = R.string.grams),
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.alignBy(LastBaseline)
+                    )
+                }
+                IconButton(
+                    onClick = onTrack,
+                    enabled = trackableFoodUiState.amount.isNotBlank()
                 ) {
-                    Row {
-                        BasicTextField(
-                            value = trackableFoodUiState.amount,
-                            onValueChange = onAmountChange,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number,
-                                imeAction = if (trackableFoodUiState.amount.isNotBlank()) {
-                                    ImeAction.Done
-                                } else ImeAction.Default
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    onTrack()
-                                    defaultKeyboardAction(ImeAction.Done)
-                                }
-                            ),
-                            singleLine = true,
-                            modifier = Modifier
-                                .border(
-                                    shape = RoundedCornerShape(5.dp),
-                                    width = 0.5.dp,
-                                    color = MaterialTheme.colors.onSurface
-                                )
-                                .alignBy(LastBaseline)
-                                .padding(spacing.spaceMedium)
-                        )
-                        Spacer(modifier = Modifier.width(spacing.spaceExtraSmall))
-                        Text(
-                            text = stringResource(id = R.string.grams),
-                            style = MaterialTheme.typography.body1,
-                            modifier = Modifier.alignBy(LastBaseline)
-                        )
-                    }
-                    IconButton(
-                        onClick = onTrack,
-                        enabled = trackableFoodUiState.amount.isNotBlank()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = stringResource(id = R.string.track)
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = stringResource(id = R.string.track)
+                    )
                 }
             }
-
         }
     }
 }
