@@ -7,5 +7,7 @@ dependencies {
     "implementation"(project(Modules.coreUi))
     "implementation"(project(Modules.trackerDomain))
 
-    "implementation"(Coil.coilCompose)
+    "implementation"(Glide.glideCompose)
+    "kapt"(Glide.glideCompiler)
+    "implementation"(Glide.glideLandscapistCompose)
 }
